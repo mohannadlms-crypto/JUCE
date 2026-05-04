@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>Juicery | Smart Audit</title>
+    <title>Juicery | Ultra Precise Audit</title>
     <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@700&family=Outfit:wght@400;700;900&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -44,7 +44,7 @@
             color: white; padding: 5px 10px; border-radius: 10px; font-size: 0.65rem; font-weight: 700;
         }
 
-        .content { padding: 5px 8px 115px; }
+        .content { padding: 5px 8px 120px; }
 
         .card-row {
             background: var(--glass); border-radius: 12px; padding: 8px 10px;
@@ -67,21 +67,22 @@
         .result-panel {
             position: fixed; bottom: 0; left: 0; right: 0;
             background: rgba(18, 18, 18, 0.98); border-top: 2px solid var(--orange);
-            padding: 12px 15px calc(10px + env(safe-area-inset-bottom));
+            padding: 10px 15px calc(10px + env(safe-area-inset-bottom));
             display: flex; justify-content: space-between; align-items: center;
             backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px);
             z-index: 200; box-shadow: 0 -10px 30px rgba(0,0,0,0.5);
         }
 
         .res-main { text-align: left; }
-        .res-label { font-size: 0.6rem; font-weight: 900; color: var(--orange); opacity: 0.8; text-transform: uppercase; }
-        .res-num { font-size: 2.6rem; font-weight: 900; color: white; line-height: 1; }
-        .res-sts { font-size: 0.8rem; font-weight: 900; color: var(--pink); }
+        .res-label { font-size: 0.55rem; font-weight: 900; color: var(--orange); opacity: 0.8; text-transform: uppercase; }
+        .res-num { font-size: 2.4rem; font-weight: 900; color: white; line-height: 1; }
+        .res-sts { font-size: 0.75rem; font-weight: 900; color: var(--pink); }
 
-        .res-details { font-size: 0.65rem; color: #eee; text-align: right; line-height: 1.4; width: 55%; max-height: 95px; overflow-y: auto; }
-        .det-title { color: var(--yellow); font-weight: 900; display: block; border-bottom: 0.5px solid #444; margin-bottom: 4px; font-size: 0.7rem; }
+        .res-details { font-size: 0.6rem; color: #eee; text-align: right; line-height: 1.3; width: 60%; max-height: 100px; overflow-y: auto; }
+        .det-title { color: var(--yellow); font-weight: 900; display: block; border-bottom: 0.5px solid #444; margin-bottom: 4px; font-size: 0.65rem; }
         .det-item { display: flex; justify-content: space-between; margin-bottom: 2px; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 2px; }
         .det-val { color: var(--orange); font-weight: 900; }
+        .formula-line { font-size: 0.5rem; color: #888; font-family: monospace; display: block; margin-top: 2px; }
 
         body.rtl { direction: rtl; }
         body.rtl .logo-box { text-align: right; }
@@ -115,7 +116,7 @@
         <div class="res-main">
             <div class="res-label" id="r-head">TOTAL ORANGE</div>
             <div class="res-num" id="res-num">0.00</div>
-            <div class="res-status" id="res-sts">...</div>
+            <div class="res-sts" id="res-sts">...</div>
         </div>
         <div class="res-details" id="details-area">
             <span class="det-title" id="d-title">ORANGE BREAKDOWN:</span>
@@ -126,8 +127,8 @@
     <script>
         var lang = 'en';
         var strings = {
-            en: { cartons: "CARTONS:", oj: "Orange Juice", oc: "Orange & Carrot", ob: "Beetroot & Orange", op: "Pineapple & Orange", gd: "Green Detox", rHead: "YIELD L/C", totalLabel: "TOTAL ORANGE (L)", wait: "...", exc: "EXCELLENT ✅", norm: "NORMAL 🆗", low: "LOW ⚠️", theft: "LOSS 🚫", dTitle: "ORANGE BREAKDOWN:", waitMsg: "Waiting...", totalOrange: "Total Orange: " },
-            ar: { cartons: "الكراتين:", oj: "عصير برتقال", oc: "برتقال وجزر", ob: "شمندر وبرتقال", op: "أناناس وبرتقال", gd: "ديتوكس أخضر", rHead: "المعدل L/C", totalLabel: "إجمالي البرتقال (لتر)", wait: "...", exc: "ممتاز ✅", norm: "طبيعي 🆗", low: "هدر ⚠️", theft: "هدر عالٍ 🚫", dTitle: "تفصيل البرتقال:", waitMsg: "بانتظار البيانات...", totalOrange: "إجمالي البرتقال: " }
+            en: { cartons: "CARTONS:", oj: "Orange Juice", oc: "Orange & Carrot", ob: "Beetroot & Orange", op: "Pineapple & Orange", gd: "Green Detox", rHead: "YIELD L/C", totalLabel: "TOTAL ORANGE (L)", wait: "...", exc: "EXCELLENT ✅", norm: "NORMAL 🆗", low: "LOW ⚠️", theft: "LOSS 🚫", dTitle: "ORANGE BREAKDOWN:", waitMsg: "Waiting...", totalOrange: "Total Orange: ", formula: "Formula: " },
+            ar: { cartons: "الكراتين:", oj: "عصير برتقال", oc: "برتقال وجزر", ob: "شمندر وبرتقال", op: "أناناس وبرتقال", gd: "ديتوكس أخضر", rHead: "المعدل L/C", totalLabel: "إجمالي البرتقال (لتر)", wait: "...", exc: "ممتاز ✅", norm: "طبيعي 🆗", low: "هدر ⚠️", theft: "هدر عالٍ 🚫", dTitle: "تفصيل البرتقال:", waitMsg: "بانتظار البيانات...", totalOrange: "إجمالي البرتقال: ", formula: "الحسبة: " }
         };
 
         function toggleLang() {
@@ -143,14 +144,27 @@
             calc();
         }
 
+        // Professional Numeric Parser (Handles Arabic numerals, commas, and weird inputs)
+        function parseN(val) {
+            if (!val) return 0;
+            // Convert Arabic numerals to English numerals
+            var ar = {'٠':0,'١':1,'٢':2,'٣':3,'٤':4,'٥':5,'٦':6,'٧':7,'٨':8,'٩':9};
+            var s = val.toString().replace(/[٠-٩]/g, function(d) { return ar[d]; });
+            // Replace comma with dot
+            s = s.replace(/,/g, '.');
+            return parseFloat(s) || 0;
+        }
+
         function getV(cls, idx) {
             var el = document.getElementsByClassName(cls)[idx];
-            if (!el) return document.getElementById(cls) ? parseFloat(document.getElementById(cls).value) || 0 : 0;
-            return parseFloat(el.value) || 0;
+            if (!el) return document.getElementById(cls) ? parseN(document.getElementById(cls).value) : 0;
+            return parseN(el.value);
         }
 
         function calc() {
             var s = strings[lang];
+            
+            // Absolute Precision calculation (using exact fractions for bottles)
             var v_oj = (getV('oj',0)*0.33 + getV('oj',1)*0.5 + getV('oj',2)*1.0);
             var v_oc = (getV('oc',0)*0.33 + getV('oc',1)*0.5 + getV('oc',2)*1.0) * 0.5;
             var v_ob = (getV('ob',0)*0.33 + getV('ob',1)*0.5 + getV('ob',2)*1.0) * 0.75;
@@ -158,7 +172,7 @@
             var v_gd = (getV('gd',0)*0.33 + getV('gd',1)*0.5 + getV('gd',2)*1.0) * 0.25;
 
             var total = v_oj + v_oc + v_ob + v_op + v_gd;
-            var carts = getV('cartons');
+            var carts = getV('cartons', 0);
             var std = 7.0;
             
             var resLabel = document.getElementById('r-head');
@@ -175,10 +189,8 @@
                 if (v_gd > 0) html += '<div class="det-item"><span>'+s.gd+'</span><span class="det-val">'+v_gd.toFixed(2)+'L</span></div>';
                 
                 html += '<div style="font-weight:900; color:var(--pink); margin-top:4px; font-size:0.75rem;">'+s.totalOrange+total.toFixed(2)+'L</div>';
-                det.innerHTML = html;
 
                 if (carts > 0) {
-                    // Calculate Yield per Carton
                     resLabel.innerText = s.rHead;
                     var v = total / carts;
                     resNum.innerText = v.toFixed(2);
@@ -186,12 +198,14 @@
                     else if (v >= std - 0.3) sts.innerText = s.norm;
                     else if (v >= std - 1.0) sts.innerText = s.low;
                     else sts.innerText = s.theft;
+                    // Show formula line for transparency
+                    html += '<span class="formula-line">'+s.formula+total.toFixed(2)+' / '+carts+' = '+v.toFixed(2)+'</span>';
                 } else {
-                    // Just show Total Orange
                     resLabel.innerText = s.totalLabel;
                     resNum.innerText = total.toFixed(2);
                     sts.innerText = "...";
                 }
+                det.innerHTML = html;
             } else {
                 resLabel.innerText = s.totalLabel;
                 resNum.innerText = "0.00"; 
