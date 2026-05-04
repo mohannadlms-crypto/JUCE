@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>Juicery | Ultra Precise Audit</title>
+    <title>Juicery | Elite Audit</title>
     <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@700&family=Outfit:wght@400;700;900&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -39,9 +39,18 @@
         }
         .arabic-sub { font-size: 0.6rem; color: var(--pink); font-weight: 900; margin-top: -3px; display: block; }
 
+        .top-actions { display: flex; align-items: center; gap: 8px; }
+
+        .clear-btn {
+            background: rgba(233, 30, 99, 0.15); border: 1px solid var(--pink);
+            color: var(--pink); padding: 5px 10px; border-radius: 8px; 
+            font-size: 0.6rem; font-weight: 900; text-transform: uppercase;
+        }
+        .clear-btn:active { background: var(--pink); color: white; transform: scale(0.95); }
+
         .lang-btn {
             background: var(--glass); border: 1px solid rgba(255,255,255,0.1);
-            color: white; padding: 5px 10px; border-radius: 10px; font-size: 0.65rem; font-weight: 700;
+            color: white; padding: 5px 10px; border-radius: 8px; font-size: 0.6rem; font-weight: 700;
         }
 
         .content { padding: 5px 8px 120px; }
@@ -67,14 +76,14 @@
         .result-panel {
             position: fixed; bottom: 0; left: 0; right: 0;
             background: rgba(18, 18, 18, 0.98); border-top: 2px solid var(--orange);
-            padding: 10px 15px calc(10px + env(safe-area-inset-bottom));
+            padding: 12px 15px calc(10px + env(safe-area-inset-bottom));
             display: flex; justify-content: space-between; align-items: center;
             backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px);
             z-index: 200; box-shadow: 0 -10px 30px rgba(0,0,0,0.5);
         }
 
         .res-main { text-align: left; }
-        .res-label { font-size: 0.55rem; font-weight: 900; color: var(--orange); opacity: 0.8; text-transform: uppercase; }
+        .res-label { font-size: 0.6rem; font-weight: 900; color: var(--orange); opacity: 0.8; text-transform: uppercase; }
         .res-num { font-size: 2.4rem; font-weight: 900; color: white; line-height: 1; }
         .res-sts { font-size: 0.75rem; font-weight: 900; color: var(--pink); }
 
@@ -97,9 +106,10 @@
             <h1 class="logo-text-v">Juicery</h1>
             <span class="arabic-sub">جوسري</span>
         </div>
-        <div style="display:flex; align-items:center; gap:10px;">
+        <div class="top-actions">
             <div id="t-cartons" style="font-size:0.6rem; font-weight:900; color:var(--orange);">CARTONS:</div>
-            <input type="tel" id="cartons" placeholder="0" oninput="calc()" style="width:50px; padding:5px 0; font-size:0.95rem;">
+            <input type="tel" id="cartons" placeholder="0" oninput="calc()" style="width:45px; padding:5px 0; font-size:0.95rem;">
+            <button class="clear-btn" onclick="clearAll()" id="b-clear">Clear</button>
             <button class="lang-btn" onclick="toggleLang()">🌐 <span id="l-btn">AR</span></button>
         </div>
     </header>
@@ -116,7 +126,7 @@
         <div class="res-main">
             <div class="res-label" id="r-head">TOTAL ORANGE</div>
             <div class="res-num" id="res-num">0.00</div>
-            <div class="res-sts" id="res-sts">...</div>
+            <div class="res-status" id="res-sts">...</div>
         </div>
         <div class="res-details" id="details-area">
             <span class="det-title" id="d-title">ORANGE BREAKDOWN:</span>
@@ -127,8 +137,8 @@
     <script>
         var lang = 'en';
         var strings = {
-            en: { cartons: "CARTONS:", oj: "Orange Juice", oc: "Orange & Carrot", ob: "Beetroot & Orange", op: "Pineapple & Orange", gd: "Green Detox", rHead: "YIELD L/C", totalLabel: "TOTAL ORANGE (L)", wait: "...", exc: "EXCELLENT ✅", norm: "NORMAL 🆗", low: "LOW ⚠️", theft: "LOSS 🚫", dTitle: "ORANGE BREAKDOWN:", waitMsg: "Waiting...", totalOrange: "Total Orange: ", formula: "Formula: " },
-            ar: { cartons: "الكراتين:", oj: "عصير برتقال", oc: "برتقال وجزر", ob: "شمندر وبرتقال", op: "أناناس وبرتقال", gd: "ديتوكس أخضر", rHead: "المعدل L/C", totalLabel: "إجمالي البرتقال (لتر)", wait: "...", exc: "ممتاز ✅", norm: "طبيعي 🆗", low: "هدر ⚠️", theft: "هدر عالٍ 🚫", dTitle: "تفصيل البرتقال:", waitMsg: "بانتظار البيانات...", totalOrange: "إجمالي البرتقال: ", formula: "الحسبة: " }
+            en: { cartons: "CARTONS:", oj: "Orange Juice", oc: "Orange & Carrot", ob: "Beetroot & Orange", op: "Pineapple & Orange", gd: "Green Detox", rHead: "YIELD L/C", totalLabel: "TOTAL ORANGE (L)", wait: "...", exc: "EXCELLENT ✅", norm: "NORMAL 🆗", low: "LOW ⚠️", theft: "LOSS 🚫", dTitle: "ORANGE BREAKDOWN:", waitMsg: "Waiting...", totalOrange: "Total Orange: ", formula: "Formula: ", clear: "Clear" },
+            ar: { cartons: "الكراتين:", oj: "عصير برتقال", oc: "برتقال وجزر", ob: "شمندر وبرتقال", op: "أناناس وبرتقال", gd: "ديتوكس أخضر", rHead: "المعدل L/C", totalLabel: "إجمالي البرتقال (لتر)", wait: "...", exc: "ممتاز ✅", norm: "طبيعي 🆗", low: "هدر ⚠️", theft: "هدر عالٍ 🚫", dTitle: "تفصيل البرتقال:", waitMsg: "بانتظار البيانات...", totalOrange: "إجمالي البرتقال: ", formula: "الحسبة: ", clear: "مسح" }
         };
 
         function toggleLang() {
@@ -141,16 +151,22 @@
             document.getElementById('t3').innerText = s.ob; document.getElementById('t4').innerText = s.op;
             document.getElementById('t5').innerText = s.gd;
             document.getElementById('d-title').innerText = s.dTitle;
+            document.getElementById('b-clear').innerText = s.clear;
             calc();
         }
 
-        // Professional Numeric Parser (Handles Arabic numerals, commas, and weird inputs)
+        function clearAll() {
+            if (confirm(lang === 'en' ? "Clear all data?" : "هل تريد مسح جميع البيانات؟")) {
+                var inputs = document.querySelectorAll('input');
+                inputs.forEach(function(input) { input.value = ''; });
+                calc();
+            }
+        }
+
         function parseN(val) {
             if (!val) return 0;
-            // Convert Arabic numerals to English numerals
             var ar = {'٠':0,'١':1,'٢':2,'٣':3,'٤':4,'٥':5,'٦':6,'٧':7,'٨':8,'٩':9};
             var s = val.toString().replace(/[٠-٩]/g, function(d) { return ar[d]; });
-            // Replace comma with dot
             s = s.replace(/,/g, '.');
             return parseFloat(s) || 0;
         }
@@ -163,8 +179,6 @@
 
         function calc() {
             var s = strings[lang];
-            
-            // Absolute Precision calculation (using exact fractions for bottles)
             var v_oj = (getV('oj',0)*0.33 + getV('oj',1)*0.5 + getV('oj',2)*1.0);
             var v_oc = (getV('oc',0)*0.33 + getV('oc',1)*0.5 + getV('oc',2)*1.0) * 0.5;
             var v_ob = (getV('ob',0)*0.33 + getV('ob',1)*0.5 + getV('ob',2)*1.0) * 0.75;
@@ -198,7 +212,6 @@
                     else if (v >= std - 0.3) sts.innerText = s.norm;
                     else if (v >= std - 1.0) sts.innerText = s.low;
                     else sts.innerText = s.theft;
-                    // Show formula line for transparency
                     html += '<span class="formula-line">'+s.formula+total.toFixed(2)+' / '+carts+' = '+v.toFixed(2)+'</span>';
                 } else {
                     resLabel.innerText = s.totalLabel;
