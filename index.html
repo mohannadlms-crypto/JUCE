@@ -3,258 +3,198 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>Juicery Audit | جوسري</title>
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>Juicery | Pro Audit</title>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@700&family=Outfit:wght@400;700;900&display=swap" rel="stylesheet">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap');
-
         :root {
-            /* Exact Colors from Juicery Logo */
-            --logo-orange: #FFB300;
-            --logo-pink: #FF006E;
-            --logo-yellow: #FFEA00;
-            --logo-green: #38B000;
-            --bg-color: #1A1A1A; /* Dark charcoal from logo background */
-            --card-bg: rgba(45, 45, 45, 0.7);
+            --orange: #FF9F00;
+            --pink: #E91E63;
+            --yellow: #FFD600;
+            --brand-dark: #121212;
+            --glass: rgba(255, 255, 255, 0.04);
         }
 
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
 
         body {
             font-family: 'Outfit', sans-serif;
-            background-color: var(--bg-color);
-            /* Fruit pattern inspiration from logo */
-            background-image: 
-                radial-gradient(circle at 10% 10%, rgba(255, 179, 0, 0.05) 0%, transparent 20%),
-                radial-gradient(circle at 90% 90%, rgba(255, 0, 110, 0.05) 0%, transparent 20%);
-            color: #FFFFFF;
-            margin: 0; padding: 0;
+            background-color: var(--brand-dark);
+            color: white; margin: 0; padding: 0; 
             min-height: 100vh;
-            display: flex; flex-direction: column;
+            background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23ffffff' fill-opacity='0.02'%3E%3Ccircle cx='20' cy='20' r='5'/%3E%3C/g%3E%3C/svg%3E");
         }
 
         .header {
-            padding: 50px 20px 20px;
-            text-align: center;
-            border-bottom: 1px solid rgba(255,255,255,0.05);
-            background: rgba(26, 26, 26, 0.9);
-            backdrop-filter: blur(10px);
-            position: sticky; top: 0; z-index: 1000;
+            padding: 45px 12px 10px;
+            display: flex; justify-content: space-between; align-items: center;
+            position: sticky; top: 0; background: var(--brand-dark); z-index: 100;
         }
 
-        /* Logo Placeholder - User will replace this with their PNG */
-        .logo-container {
-            height: 60px;
-            margin-bottom: 10px;
-            display: flex; justify-content: center; align-items: center;
+        .logo-box { text-align: left; }
+        .logo-text-v {
+            font-family: 'Fredoka', sans-serif; font-size: 1.35rem; font-weight: 700;
+            background: linear-gradient(to right, var(--yellow), var(--orange));
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            margin: 0;
         }
-        .logo-placeholder {
-            font-weight: 800; font-size: 1.8rem;
-            color: var(--logo-orange);
-            text-shadow: 2px 2px var(--logo-pink);
-            letter-spacing: -1px;
-        }
+        .arabic-sub { font-size: 0.6rem; color: var(--pink); font-weight: 900; margin-top: -3px; display: block; }
 
-        .lang-toggle {
-            position: absolute; top: 55px; right: 20px;
-            background: rgba(255,255,255,0.1); border: none; color: white;
-            padding: 5px 12px; border-radius: 12px; font-size: 0.75rem;
+        .lang-btn {
+            background: var(--glass); border: 1px solid rgba(255,255,255,0.1);
+            color: white; padding: 5px 10px; border-radius: 10px; font-size: 0.65rem; font-weight: 700;
         }
 
-        .content { flex: 1; padding: 15px; }
-
-        .card {
-            background: var(--card-bg);
-            border-radius: 20px;
-            padding: 15px; margin-bottom: 12px;
-            border: 1px solid rgba(255,255,255,0.05);
-            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+        .content { 
+            padding: 5px 8px 80px; /* Reduced padding to bring result box closer */
+            display: flex; flex-direction: column; gap: 4px;
         }
 
-        .card-title {
-            font-size: 0.8rem; font-weight: 700; color: var(--logo-orange);
-            margin-bottom: 10px; text-transform: uppercase;
-            display: flex; justify-content: space-between;
+        .card-row {
+            background: var(--glass); border-radius: 12px; padding: 8px 10px;
+            display: flex; align-items: center; gap: 10px;
+            border: 1px solid rgba(255,255,255,0.03);
         }
 
-        .input-row {
-            display: grid; grid-template-columns: 1fr 1fr 1fr;
-            gap: 10px;
-        }
+        .row-title { font-size: 0.65rem; font-weight: 900; color: var(--orange); width: 80px; flex-shrink: 0; line-height: 1.1; }
 
-        .field { display: flex; flex-direction: column; gap: 5px; }
-        .label { font-size: 0.6rem; color: #888; text-align: center; font-weight: 700; }
+        .inputs-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 6px; flex-grow: 1; }
+        .input-box { display: flex; flex-direction: column; gap: 1px; }
+        .label { font-size: 0.5rem; color: #666; text-align: center; font-weight: 800; }
 
         input {
-            background: #252525; border: 1px solid #333; border-radius: 10px;
-            color: white; padding: 12px 0; text-align: center;
-            font-size: 1.1rem; font-weight: 700; outline: none; width: 100%;
+            background: rgba(0,0,0,0.4); border: 1.5px solid rgba(255,255,255,0.08); border-radius: 8px;
+            color: white; padding: 6px 0; text-align: center; font-size: 1rem; font-weight: 700; outline: none; width: 100%;
         }
-
-        input:focus {
-            border-color: var(--logo-pink);
-            background: #2a2a2a;
-        }
-
-        .calc-btn {
-            width: 100%; 
-            background: linear-gradient(90deg, var(--logo-orange), var(--logo-pink));
-            border: none; color: white; padding: 18px; border-radius: 15px;
-            font-size: 1.1rem; font-weight: 800; margin: 20px 0;
-            box-shadow: 0 5px 20px rgba(255, 0, 110, 0.3);
-        }
+        input:focus { border-color: var(--pink); background: rgba(0,0,0,0.6); }
 
         .result-panel {
-            background: #FFFFFF; border-radius: 25px; padding: 25px;
-            color: #1A1A1A; text-align: center; margin-bottom: 50px;
+            position: fixed; bottom: 0; left: 0; right: 0;
+            background: rgba(18, 18, 18, 0.98); border-top: 2px solid var(--orange);
+            padding: 12px 15px calc(12px + env(safe-area-inset-bottom));
+            display: flex; justify-content: space-between; align-items: center;
+            backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px);
+            z-index: 200; box-shadow: 0 -10px 30px rgba(0,0,0,0.5);
         }
 
-        .yield-num { font-size: 3.5rem; font-weight: 800; display: block; margin: 5px 0; letter-spacing: -2px; }
-        .status { font-weight: 800; font-size: 0.9rem; padding: 5px 15px; border-radius: 50px; background: #f0f0f0; }
+        .res-main { text-align: left; }
+        .res-label { font-size: 0.6rem; font-weight: 900; color: var(--orange); opacity: 0.8; }
+        .res-num { font-size: 2.6rem; font-weight: 900; color: white; line-height: 1; }
+        .res-sts { font-size: 0.8rem; font-weight: 900; color: var(--pink); }
+
+        .res-details { font-size: 0.6rem; color: #999; text-align: right; line-height: 1.4; width: 50%; }
+        .det-title { color: var(--yellow); font-weight: 900; display: block; border-bottom: 0.5px solid #444; margin-bottom: 2px; }
 
         body.rtl { direction: rtl; }
-        body.rtl .lang-toggle { right: auto; left: 20px; }
+        body.rtl .logo-box { text-align: right; }
+        body.rtl .res-main { text-align: right; }
+        body.rtl .res-details { text-align: left; }
     </style>
 </head>
 <body id="bdy">
 
     <header class="header">
-        <div class="logo-container">
-            <!-- User: Place your logo.png here -->
-            <div class="logo-placeholder">JUICERY</div>
+        <div class="logo-box">
+            <h1 class="logo-text-v">Juicery</h1>
+            <span class="arabic-sub">جوسري</span>
         </div>
-        <button class="lang-toggle" onclick="toggleLang()">🌐 <span id="l-btn">العربية</span></button>
+        <div style="display:flex; align-items:center; gap:10px;">
+            <div id="t-cartons" style="font-size:0.6rem; font-weight:900; color:var(--orange);">CARTONS:</div>
+            <input type="tel" id="cartons" placeholder="0" oninput="calc()" style="width:50px; padding:5px 0; font-size:0.95rem;">
+            <button class="lang-btn" onclick="toggleLang()">🌐 <span id="l-btn">AR</span></button>
+        </div>
     </header>
 
     <main class="content">
-        <!-- Cartons -->
-        <div class="card" style="border-left: 5px solid var(--logo-orange);">
-            <div class="card-title" id="t-cartons">Total Cartons Used</div>
-            <input type="tel" id="cartons" placeholder="0" oninput="calc()">
-        </div>
-
-        <!-- Juices -->
-        <div class="card">
-            <div class="card-title"><span><span id="t1">Orange Juice</span></span> <span style="color:var(--logo-green)">100%</span></div>
-            <div class="input-row">
-                <div class="field"><span class="label">330ML</span><input type="tel" class="oj" oninput="calc()"></div>
-                <div class="field"><span class="label">500ML</span><input type="tel" class="oj" oninput="calc()"></div>
-                <div class="field"><span class="label">1L</span><input type="tel" class="oj" oninput="calc()"></div>
-            </div>
-        </div>
-
-        <div class="card">
-            <div class="card-title"><span><span id="t2">Orange & Carrot</span></span> <span style="color:var(--logo-green)">50%</span></div>
-            <div class="input-row">
-                <div class="field"><span class="label">330ML</span><input type="tel" class="oc" oninput="calc()"></div>
-                <div class="field"><span class="label">500ML</span><input type="tel" class="oc" oninput="calc()"></div>
-                <div class="field"><span class="label">1L</span><input type="tel" class="oc" oninput="calc()"></div>
-            </div>
-        </div>
-
-        <div class="card">
-            <div class="card-title"><span><span id="t3">Beetroot & Orange</span></span> <span style="color:var(--logo-green)">75%</span></div>
-            <div class="input-row">
-                <div class="field"><span class="label">330ML</span><input type="tel" class="ob" oninput="calc()"></div>
-                <div class="field"><span class="label">500ML</span><input type="tel" class="ob" oninput="calc()"></div>
-                <div class="field"><span class="label">1L</span><input type="tel" class="ob" oninput="calc()"></div>
-            </div>
-        </div>
-
-        <div class="card">
-            <div class="card-title"><span><span id="t4">Pineapple & Orange</span></span> <span style="color:var(--logo-green)">75%</span></div>
-            <div class="input-row">
-                <div class="field"><span class="label">330ML</span><input type="tel" class="op" oninput="calc()"></div>
-                <div class="field"><span class="label">500ML</span><input type="tel" class="op" oninput="calc()"></div>
-                <div class="field"><span class="label">1L</span><input type="tel" class="op" oninput="calc()"></div>
-            </div>
-        </div>
-
-        <div class="card">
-            <div class="card-title"><span><span id="t5">Green Detox</span></span> <span style="color:var(--logo-green)">25%</span></div>
-            <div class="input-row">
-                <div class="field"><span class="label">330ML</span><input type="tel" class="gd" oninput="calc()"></div>
-                <div class="field"><span class="label">500ML</span><input type="tel" class="gd" oninput="calc()"></div>
-                <div class="field"><span class="label">1L</span><input type="tel" class="gd" oninput="calc()"></div>
-            </div>
-        </div>
-
-        <button class="calc-btn" onclick="calc()" id="b-calc">CALCULATE AUDIT</button>
-
-        <div class="result-panel">
-            <span style="font-size: 0.8rem; font-weight: 800; opacity: 0.5;" id="r-head">LITERS PER CARTON</span>
-            <span class="yield-num" id="res">0.00</span>
-            <div class="status" id="sts">WAITING...</div>
-        </div>
+        <div class="card-row"><div class="row-title" id="t1">Orange Juice</div><div class="inputs-grid"><div class="input-box"><span class="label">330</span><input type="tel" class="oj" oninput="calc()"></div><div class="input-box"><span class="label">500</span><input type="tel" class="oj" oninput="calc()"></div><div class="input-box"><span class="label">1L</span><input type="tel" class="oj" oninput="calc()"></div></div></div>
+        <div class="card-row"><div class="row-title" id="t2">Orange & Carrot</div><div class="inputs-grid"><div class="input-box"><span class="label">330</span><input type="tel" class="oc" oninput="calc()"></div><div class="input-box"><span class="label">500</span><input type="tel" class="oc" oninput="calc()"></div><div class="input-box"><span class="label">1L</span><input type="tel" class="oc" oninput="calc()"></div></div></div>
+        <div class="card-row"><div class="row-title" id="t3">Beetroot & Orange</div><div class="inputs-grid"><div class="input-box"><span class="label">330</span><input type="tel" class="ob" oninput="calc()"></div><div class="input-box"><span class="label">500</span><input type="tel" class="ob" oninput="calc()"></div><div class="input-box"><span class="label">1L</span><input type="tel" class="ob" oninput="calc()"></div></div></div>
+        <div class="card-row"><div class="row-title" id="t4">Pineapple & Orange</div><div class="inputs-grid"><div class="input-box"><span class="label">330</span><input type="tel" class="op" oninput="calc()"></div><div class="input-box"><span class="label">500</span><input type="tel" class="op" oninput="calc()"></div><div class="input-box"><span class="label">1L</span><input type="tel" class="op" oninput="calc()"></div></div></div>
+        <div class="card-row"><div class="row-title" id="t5">Green Detox</div><div class="inputs-grid"><div class="input-box"><span class="label">330</span><input type="tel" class="gd" oninput="calc()"></div><div class="input-box"><span class="label">500</span><input type="tel" class="gd" oninput="calc()"></div><div class="input-box"><span class="label">1L</span><input type="tel" class="gd" oninput="calc()"></div></div></div>
     </main>
+
+    <div class="result-panel">
+        <div class="res-main">
+            <div class="res-label" id="r-head">YIELD L/C</div>
+            <div class="res-num" id="res-num">0.00</div>
+            <div class="res-status" id="res-sts">...</div>
+        </div>
+        <div class="res-details" id="details-area">
+            <span class="det-title" id="d-title">PRODUCTION:</span>
+            <div id="d-body">Waiting...</div>
+        </div>
+    </div>
 
     <script>
         var lang = 'en';
         var strings = {
-            en: {
-                cartons: "Total Cartons Used", oj: "Orange Juice", oc: "Orange & Carrot", ob: "Beetroot & Orange",
-                op: "Pineapple & Orange", gd: "Green Detox", btn: "CALCULATE AUDIT", rHead: "LITERS PER CARTON",
-                wait: "WAITING...", exc: "EXCELLENT ✅", norm: "NORMAL 🆗", low: "LOW ⚠️", theft: "LOSS 🚫"
-            },
-            ar: {
-                cartons: "إجمالي كراتين البرتقال", oj: "عصير برتقال", oc: "برتقال وجزر", ob: "شمندر وبرتقال",
-                op: "أناناس وبرتقال", gd: "ديتوكس أخضر", btn: "احسب النتائج الآن", rHead: "المعدل لكل كرتون",
-                wait: "بانتظار البيانات...", exc: "ممتاز ✅", norm: "طبيعي 🆗", low: "هدر ⚠️", theft: "هدر عالٍ 🚫"
-            }
+            en: { cartons: "CARTONS:", oj: "Orange Juice", oc: "Orange & Carrot", ob: "Beetroot & Orange", op: "Pineapple & Orange", gd: "Green Detox", rHead: "YIELD L/C", wait: "...", exc: "EXCELLENT ✅", norm: "NORMAL 🆗", low: "LOW ⚠️", theft: "LOSS 🚫", dTitle: "PRODUCTION:", waitMsg: "Waiting..." },
+            ar: { cartons: "الكراتين:", oj: "عصير برتقال", oc: "برتقال وجزر", ob: "شمندر وبرتقال", op: "أناناس وبرتقال", gd: "ديتوكس أخضر", rHead: "المعدل", wait: "...", exc: "ممتاز ✅", norm: "طبيعي 🆗", low: "هدر ⚠️", theft: "هدر عالٍ 🚫", dTitle: "الإنتاج:", waitMsg: "بانتظار البيانات..." }
         };
 
         function toggleLang() {
             lang = (lang === 'en') ? 'ar' : 'en';
             document.getElementById('bdy').className = (lang === 'ar') ? 'rtl' : '';
             var s = strings[lang];
-            document.getElementById('l-btn').innerText = (lang === 'en') ? 'العربية' : 'English';
+            document.getElementById('l-btn').innerText = (lang === 'en') ? 'AR' : 'EN';
             document.getElementById('t-cartons').innerText = s.cartons;
             document.getElementById('t1').innerText = s.oj; document.getElementById('t2').innerText = s.oc;
             document.getElementById('t3').innerText = s.ob; document.getElementById('t4').innerText = s.op;
-            document.getElementById('t5').innerText = s.gd; document.getElementById('b-calc').innerText = s.btn;
+            document.getElementById('t5').innerText = s.gd;
             document.getElementById('r-head').innerText = s.rHead;
+            document.getElementById('d-title').innerText = s.dTitle;
             calc();
         }
 
-        function getV(id_cl, idx) {
-            var el = (idx !== undefined) ? document.getElementsByClassName(id_cl)[idx] : document.getElementById(id_cl);
-            var n = parseFloat(el.value);
-            return isNaN(n) ? 0 : n;
+        function getV(cls, idx) {
+            var el = document.getElementsByClassName(cls)[idx];
+            if (!el) return document.getElementById(cls) ? parseFloat(document.getElementById(cls).value) || 0 : 0;
+            return parseFloat(el.value) || 0;
         }
 
         function calc() {
             var s = strings[lang];
-            var oj = (getV('oj',0)*0.33 + getV('oj',1)*0.5 + getV('oj',2)*1.0) * 1.0;
-            var oc = (getV('oc',0)*0.33 + getV('oc',1)*0.5 + getV('oc',2)*1.0) * 0.5;
-            var ob = (getV('ob',0)*0.33 + getV('ob',1)*0.5 + getV('ob',2)*1.0) * 0.75;
-            var op = (getV('op',0)*0.33 + getV('op',1)*0.5 + getV('op',2)*1.0) * 0.75;
-            var gd = (getV('gd',0)*0.33 + getV('gd',1)*0.5 + getV('gd',2)*1.0) * 0.25;
+            var v_oj = (getV('oj',0)*0.33 + getV('oj',1)*0.5 + getV('oj',2)*1.0);
+            var v_oc = (getV('oc',0)*0.33 + getV('oc',1)*0.5 + getV('oc',2)*1.0) * 0.5;
+            var v_ob = (getV('ob',0)*0.33 + getV('ob',1)*0.5 + getV('ob',2)*1.0) * 0.75;
+            var v_op = (getV('op',0)*0.33 + getV('op',1)*0.5 + getV('op',2)*1.0) * 0.75;
+            var v_gd = (getV('gd',0)*0.33 + getV('gd',1)*0.5 + getV('gd',2)*1.0) * 0.25;
 
-            var total = oj + oc + ob + op + gd;
+            var total = v_oj + v_oc + v_ob + v_op + v_gd;
             var carts = getV('cartons');
-            var res = document.getElementById('res');
-            var sts = document.getElementById('sts');
+            var std = 7.0;
+            
+            var res = document.getElementById('res-num');
+            var sts = document.getElementById('res-sts');
+            var det = document.getElementById('d-body');
 
             if (carts > 0 && total > 0) {
                 var v = total / carts;
                 res.innerText = v.toFixed(2);
-                if (v >= 7.1) sts.innerText = s.exc;
-                else if (v >= 6.7) sts.innerText = s.norm;
-                else if (v >= 6.0) sts.innerText = s.low;
+                if (v >= std + 0.1) sts.innerText = s.exc;
+                else if (v >= std - 0.3) sts.innerText = s.norm;
+                else if (v >= std - 1.0) sts.innerText = s.low;
                 else sts.innerText = s.theft;
+
+                var html = '';
+                if (v_oj > 0) html += v_oj.toFixed(1)+'L OJ | ';
+                if (v_oc > 0) html += v_oc.toFixed(1)+'L O+C | ';
+                if (v_ob > 0) html += v_ob.toFixed(1)+'L O+B | ';
+                if (v_op > 0) html += v_op.toFixed(1)+'L O+P | ';
+                if (v_gd > 0) html += v_gd.toFixed(1)+'L GD';
+                html += '<br><b style="color:white">Total: '+total.toFixed(2)+'L</b>';
+                det.innerHTML = html;
             } else {
                 res.innerText = "0.00"; sts.innerText = s.wait;
+                det.innerHTML = s.waitMsg;
             }
         }
 
-        // Space/Enter Jumps
         var ins = document.querySelectorAll('input');
         ins.forEach(function(input, i) {
             input.addEventListener('keydown', function(e) {
                 if (e.keyCode === 32 || e.keyCode === 13) {
                     e.preventDefault();
-                    if (ins[i+1]) { ins[i+1].focus(); ins[i+1].select(); ins[i+1].scrollIntoView({behavior:'smooth', block:'center'}); }
+                    if (ins[i+1]) { ins[i+1].focus(); ins[i+1].select(); }
                 }
             });
         });
