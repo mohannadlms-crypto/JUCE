@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>Juicery | Pro Audit</title>
+    <title>Juicery | Expert Audit</title>
     <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@700&family=Outfit:wght@400;700;900&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -25,7 +25,7 @@
         }
 
         .header {
-            padding: 45px 12px 10px;
+            padding: 45px 12px 5px;
             display: flex; justify-content: space-between; align-items: center;
             position: sticky; top: 0; background: var(--brand-dark); z-index: 100;
         }
@@ -44,15 +44,12 @@
             color: white; padding: 5px 10px; border-radius: 10px; font-size: 0.65rem; font-weight: 700;
         }
 
-        .content { 
-            padding: 5px 8px 80px; /* Reduced padding to bring result box closer */
-            display: flex; flex-direction: column; gap: 4px;
-        }
+        .content { padding: 5px 8px 110px; }
 
         .card-row {
             background: var(--glass); border-radius: 12px; padding: 8px 10px;
             display: flex; align-items: center; gap: 10px;
-            border: 1px solid rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.03); margin-bottom: 4px;
         }
 
         .row-title { font-size: 0.65rem; font-weight: 900; color: var(--orange); width: 80px; flex-shrink: 0; line-height: 1.1; }
@@ -70,7 +67,7 @@
         .result-panel {
             position: fixed; bottom: 0; left: 0; right: 0;
             background: rgba(18, 18, 18, 0.98); border-top: 2px solid var(--orange);
-            padding: 12px 15px calc(12px + env(safe-area-inset-bottom));
+            padding: 12px 15px calc(10px + env(safe-area-inset-bottom));
             display: flex; justify-content: space-between; align-items: center;
             backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px);
             z-index: 200; box-shadow: 0 -10px 30px rgba(0,0,0,0.5);
@@ -81,8 +78,10 @@
         .res-num { font-size: 2.6rem; font-weight: 900; color: white; line-height: 1; }
         .res-sts { font-size: 0.8rem; font-weight: 900; color: var(--pink); }
 
-        .res-details { font-size: 0.6rem; color: #999; text-align: right; line-height: 1.4; width: 50%; }
-        .det-title { color: var(--yellow); font-weight: 900; display: block; border-bottom: 0.5px solid #444; margin-bottom: 2px; }
+        .res-details { font-size: 0.65rem; color: #eee; text-align: right; line-height: 1.4; width: 55%; max-height: 90px; overflow-y: auto; }
+        .det-title { color: var(--yellow); font-weight: 900; display: block; border-bottom: 0.5px solid #444; margin-bottom: 4px; font-size: 0.7rem; }
+        .det-item { display: flex; justify-content: space-between; margin-bottom: 2px; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 2px; }
+        .det-val { color: var(--orange); font-weight: 900; }
 
         body.rtl { direction: rtl; }
         body.rtl .logo-box { text-align: right; }
@@ -119,16 +118,16 @@
             <div class="res-status" id="res-sts">...</div>
         </div>
         <div class="res-details" id="details-area">
-            <span class="det-title" id="d-title">PRODUCTION:</span>
-            <div id="d-body">Waiting...</div>
+            <span class="det-title" id="d-title">ORANGE BREAKDOWN:</span>
+            <div id="d-body">...</div>
         </div>
     </div>
 
     <script>
         var lang = 'en';
         var strings = {
-            en: { cartons: "CARTONS:", oj: "Orange Juice", oc: "Orange & Carrot", ob: "Beetroot & Orange", op: "Pineapple & Orange", gd: "Green Detox", rHead: "YIELD L/C", wait: "...", exc: "EXCELLENT ✅", norm: "NORMAL 🆗", low: "LOW ⚠️", theft: "LOSS 🚫", dTitle: "PRODUCTION:", waitMsg: "Waiting..." },
-            ar: { cartons: "الكراتين:", oj: "عصير برتقال", oc: "برتقال وجزر", ob: "شمندر وبرتقال", op: "أناناس وبرتقال", gd: "ديتوكس أخضر", rHead: "المعدل", wait: "...", exc: "ممتاز ✅", norm: "طبيعي 🆗", low: "هدر ⚠️", theft: "هدر عالٍ 🚫", dTitle: "الإنتاج:", waitMsg: "بانتظار البيانات..." }
+            en: { cartons: "CARTONS:", oj: "Orange Juice", oc: "Orange & Carrot", ob: "Beetroot & Orange", op: "Pineapple & Orange", gd: "Green Detox", rHead: "YIELD L/C", wait: "...", exc: "EXCELLENT ✅", norm: "NORMAL 🆗", low: "LOW ⚠️", theft: "LOSS 🚫", dTitle: "ORANGE BREAKDOWN:", waitMsg: "Waiting...", totalOrange: "Total Orange: " },
+            ar: { cartons: "الكراتين:", oj: "عصير برتقال", oc: "برتقال وجزر", ob: "شمندر وبرتقال", op: "أناناس وبرتقال", gd: "ديتوكس أخضر", rHead: "المعدل", wait: "...", exc: "ممتاز ✅", norm: "طبيعي 🆗", low: "هدر ⚠️", theft: "هدر عالٍ 🚫", dTitle: "تفصيل البرتقال:", waitMsg: "بانتظار البيانات...", totalOrange: "إجمالي البرتقال: " }
         };
 
         function toggleLang() {
@@ -176,12 +175,13 @@
                 else sts.innerText = s.theft;
 
                 var html = '';
-                if (v_oj > 0) html += v_oj.toFixed(1)+'L OJ | ';
-                if (v_oc > 0) html += v_oc.toFixed(1)+'L O+C | ';
-                if (v_ob > 0) html += v_ob.toFixed(1)+'L O+B | ';
-                if (v_op > 0) html += v_op.toFixed(1)+'L O+P | ';
-                if (v_gd > 0) html += v_gd.toFixed(1)+'L GD';
-                html += '<br><b style="color:white">Total: '+total.toFixed(2)+'L</b>';
+                if (v_oj > 0) html += '<div class="det-item"><span>'+s.oj+'</span><span class="det-val">'+v_oj.toFixed(2)+'L</span></div>';
+                if (v_oc > 0) html += '<div class="det-item"><span>'+s.oc+'</span><span class="det-val">'+v_oc.toFixed(2)+'L</span></div>';
+                if (v_ob > 0) html += '<div class="det-item"><span>'+s.ob+'</span><span class="det-val">'+v_ob.toFixed(2)+'L</span></div>';
+                if (v_op > 0) html += '<div class="det-item"><span>'+s.op+'</span><span class="det-val">'+v_op.toFixed(2)+'L</span></div>';
+                if (v_gd > 0) html += '<div class="det-item"><span>'+s.gd+'</span><span class="det-val">'+v_gd.toFixed(2)+'L</span></div>';
+                
+                html += '<div style="font-weight:900; color:var(--pink); margin-top:4px; font-size:0.75rem;">'+s.totalOrange+total.toFixed(2)+'L</div>';
                 det.innerHTML = html;
             } else {
                 res.innerText = "0.00"; sts.innerText = s.wait;
