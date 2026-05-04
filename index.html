@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>Juicery | Expert Audit</title>
+    <title>Juicery | Smart Audit</title>
     <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@700&family=Outfit:wght@400;700;900&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -44,7 +44,7 @@
             color: white; padding: 5px 10px; border-radius: 10px; font-size: 0.65rem; font-weight: 700;
         }
 
-        .content { padding: 5px 8px 110px; }
+        .content { padding: 5px 8px 115px; }
 
         .card-row {
             background: var(--glass); border-radius: 12px; padding: 8px 10px;
@@ -74,11 +74,11 @@
         }
 
         .res-main { text-align: left; }
-        .res-label { font-size: 0.6rem; font-weight: 900; color: var(--orange); opacity: 0.8; }
+        .res-label { font-size: 0.6rem; font-weight: 900; color: var(--orange); opacity: 0.8; text-transform: uppercase; }
         .res-num { font-size: 2.6rem; font-weight: 900; color: white; line-height: 1; }
         .res-sts { font-size: 0.8rem; font-weight: 900; color: var(--pink); }
 
-        .res-details { font-size: 0.65rem; color: #eee; text-align: right; line-height: 1.4; width: 55%; max-height: 90px; overflow-y: auto; }
+        .res-details { font-size: 0.65rem; color: #eee; text-align: right; line-height: 1.4; width: 55%; max-height: 95px; overflow-y: auto; }
         .det-title { color: var(--yellow); font-weight: 900; display: block; border-bottom: 0.5px solid #444; margin-bottom: 4px; font-size: 0.7rem; }
         .det-item { display: flex; justify-content: space-between; margin-bottom: 2px; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 2px; }
         .det-val { color: var(--orange); font-weight: 900; }
@@ -113,7 +113,7 @@
 
     <div class="result-panel">
         <div class="res-main">
-            <div class="res-label" id="r-head">YIELD L/C</div>
+            <div class="res-label" id="r-head">TOTAL ORANGE</div>
             <div class="res-num" id="res-num">0.00</div>
             <div class="res-status" id="res-sts">...</div>
         </div>
@@ -126,8 +126,8 @@
     <script>
         var lang = 'en';
         var strings = {
-            en: { cartons: "CARTONS:", oj: "Orange Juice", oc: "Orange & Carrot", ob: "Beetroot & Orange", op: "Pineapple & Orange", gd: "Green Detox", rHead: "YIELD L/C", wait: "...", exc: "EXCELLENT ✅", norm: "NORMAL 🆗", low: "LOW ⚠️", theft: "LOSS 🚫", dTitle: "ORANGE BREAKDOWN:", waitMsg: "Waiting...", totalOrange: "Total Orange: " },
-            ar: { cartons: "الكراتين:", oj: "عصير برتقال", oc: "برتقال وجزر", ob: "شمندر وبرتقال", op: "أناناس وبرتقال", gd: "ديتوكس أخضر", rHead: "المعدل", wait: "...", exc: "ممتاز ✅", norm: "طبيعي 🆗", low: "هدر ⚠️", theft: "هدر عالٍ 🚫", dTitle: "تفصيل البرتقال:", waitMsg: "بانتظار البيانات...", totalOrange: "إجمالي البرتقال: " }
+            en: { cartons: "CARTONS:", oj: "Orange Juice", oc: "Orange & Carrot", ob: "Beetroot & Orange", op: "Pineapple & Orange", gd: "Green Detox", rHead: "YIELD L/C", totalLabel: "TOTAL ORANGE (L)", wait: "...", exc: "EXCELLENT ✅", norm: "NORMAL 🆗", low: "LOW ⚠️", theft: "LOSS 🚫", dTitle: "ORANGE BREAKDOWN:", waitMsg: "Waiting...", totalOrange: "Total Orange: " },
+            ar: { cartons: "الكراتين:", oj: "عصير برتقال", oc: "برتقال وجزر", ob: "شمندر وبرتقال", op: "أناناس وبرتقال", gd: "ديتوكس أخضر", rHead: "المعدل L/C", totalLabel: "إجمالي البرتقال (لتر)", wait: "...", exc: "ممتاز ✅", norm: "طبيعي 🆗", low: "هدر ⚠️", theft: "هدر عالٍ 🚫", dTitle: "تفصيل البرتقال:", waitMsg: "بانتظار البيانات...", totalOrange: "إجمالي البرتقال: " }
         };
 
         function toggleLang() {
@@ -139,7 +139,6 @@
             document.getElementById('t1').innerText = s.oj; document.getElementById('t2').innerText = s.oc;
             document.getElementById('t3').innerText = s.ob; document.getElementById('t4').innerText = s.op;
             document.getElementById('t5').innerText = s.gd;
-            document.getElementById('r-head').innerText = s.rHead;
             document.getElementById('d-title').innerText = s.dTitle;
             calc();
         }
@@ -162,18 +161,12 @@
             var carts = getV('cartons');
             var std = 7.0;
             
-            var res = document.getElementById('res-num');
+            var resLabel = document.getElementById('r-head');
+            var resNum = document.getElementById('res-num');
             var sts = document.getElementById('res-sts');
             var det = document.getElementById('d-body');
 
-            if (carts > 0 && total > 0) {
-                var v = total / carts;
-                res.innerText = v.toFixed(2);
-                if (v >= std + 0.1) sts.innerText = s.exc;
-                else if (v >= std - 0.3) sts.innerText = s.norm;
-                else if (v >= std - 1.0) sts.innerText = s.low;
-                else sts.innerText = s.theft;
-
+            if (total > 0) {
                 var html = '';
                 if (v_oj > 0) html += '<div class="det-item"><span>'+s.oj+'</span><span class="det-val">'+v_oj.toFixed(2)+'L</span></div>';
                 if (v_oc > 0) html += '<div class="det-item"><span>'+s.oc+'</span><span class="det-val">'+v_oc.toFixed(2)+'L</span></div>';
@@ -183,8 +176,26 @@
                 
                 html += '<div style="font-weight:900; color:var(--pink); margin-top:4px; font-size:0.75rem;">'+s.totalOrange+total.toFixed(2)+'L</div>';
                 det.innerHTML = html;
+
+                if (carts > 0) {
+                    // Calculate Yield per Carton
+                    resLabel.innerText = s.rHead;
+                    var v = total / carts;
+                    resNum.innerText = v.toFixed(2);
+                    if (v >= std + 0.1) sts.innerText = s.exc;
+                    else if (v >= std - 0.3) sts.innerText = s.norm;
+                    else if (v >= std - 1.0) sts.innerText = s.low;
+                    else sts.innerText = s.theft;
+                } else {
+                    // Just show Total Orange
+                    resLabel.innerText = s.totalLabel;
+                    resNum.innerText = total.toFixed(2);
+                    sts.innerText = "...";
+                }
             } else {
-                res.innerText = "0.00"; sts.innerText = s.wait;
+                resLabel.innerText = s.totalLabel;
+                resNum.innerText = "0.00"; 
+                sts.innerText = s.wait;
                 det.innerHTML = s.waitMsg;
             }
         }
